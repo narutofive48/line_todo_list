@@ -1,7 +1,8 @@
 class LineBotController < ApplicationController
+  require "line/bot"
   protect_from_forgery with: :null_session
   def callback
-    # binding.pry
+       binding.pry
         # LINEで送られてきたメッセージのデータを取得
         body = request.body.read
 
