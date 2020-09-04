@@ -1,6 +1,7 @@
 class LineBotController < ApplicationController
   require "line/bot"
-  protect_from_forgery with: :null_session
+  protect_from_forgery:except => [callback]
+  # protect_from_forgery with: :null_session
   def callback
        binding.pry
         # LINEで送られてきたメッセージのデータを取得
@@ -25,10 +26,12 @@ class LineBotController < ApplicationController
    render json: { status: :ok }
   end
   private
-  def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
-      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+
+    def client
+      @client ||= Line::Bot::Client.new do |config|
+        config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+      end
     end
-  end
+
 end
